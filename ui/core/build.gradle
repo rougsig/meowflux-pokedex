@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+  compileSdkVersion ApkConfig.COMPILE_SDK_VERSION
+  defaultConfig {
+    minSdkVersion ApkConfig.MIN_SDK_VERSION
+    targetSdkVersion ApkConfig.TARGET_SDK_VERSION
+    versionCode 1
+    versionName '1.0.0'
+  }
+
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
+  }
+}
+
+dependencies {
+  api project(':lib:domain')
+
+  api Deps.supportCoreLibs
+  api Deps.conductorLibs
+  api Deps.supportUiLibs
+  api Deps.supportTransitions
+  api Deps.constraintLayout
+  api Deps.epoxy
+  api Deps.toothpickRuntime
+}
