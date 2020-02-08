@@ -12,9 +12,10 @@ import com.github.rougsig.meowflux.core.StoreDispatcher
 import com.github.rougsig.meowflux.pokedex.R
 import com.github.rougsig.meowflux.pokedex.lib.core.closeForegroundScope
 import com.github.rougsig.meowflux.pokedex.lib.core.openForegroundScope
+import com.github.rougsig.meowflux.pokedex.store.news.newsFetcher
 import com.github.rougsig.meowflux.pokedex.store.root.RootState
 import com.github.rougsig.meowflux.pokedex.store.root.rootReducer
-import com.github.rougsig.meowflux.pokedex.ui.counter.CounterController
+import com.github.rougsig.meowflux.pokedex.ui.home.HomeController
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import toothpick.config.Module
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     storeScope = this,
     reducer = rootReducer,
     initialState = RootState(),
-    middlewares = emptyList(),
+    middlewares = listOf(newsFetcher),
     storeName = "MeowFluxRootStore"
   )
   private lateinit var router: Router
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
       }
     })
 
-    router.setRoot(RouterTransaction.with(CounterController()))
+    router.setRoot(RouterTransaction.with(HomeController()))
   }
 
   override fun onBackPressed() {

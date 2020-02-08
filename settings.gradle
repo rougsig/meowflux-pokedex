@@ -2,8 +2,9 @@ include ':app',
   ':lib-core',
 
   ':ui:core',
-  ':ui:counter',
+  ':ui:home',
 
   ':store:root',
-  ':store:counter:action',
-  ':store:counter:reducer'
+  ':store:news:state',
+  ':store:news:reducer',
+  ':store:news:middleware'

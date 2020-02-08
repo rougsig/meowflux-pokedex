@@ -4,6 +4,6 @@ dependencies {
   implementation Deps.coreLibs
   implementation Deps.domainLibs
 
-  implementation project(":store:news:state")
-  implementation project(":store:news:reducer")
+  implementation project(':store:news:state')
+  implementation project(':store:root')
 }

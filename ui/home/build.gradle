@@ -31,10 +31,10 @@ androidExtensions {
 }
 
 dependencies {
-  api Deps.coreLibs
-  api Deps.uiLibs
+  implementation Deps.domainLibs
 
-  api project(":lib-core")
+  implementation project(":ui:core")
 
-  kapt Deps.epoxyProcessor
+  implementation project(":store:root")
+  implementation project(":store:news:state")
 }

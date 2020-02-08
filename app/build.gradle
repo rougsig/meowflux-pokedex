@@ -34,7 +34,10 @@ dependencies {
   implementation Deps.domainLibs
 
   implementation project(":lib-core")
-  implementation project(":store:root")
   implementation project(":ui:core")
-  implementation project(":ui:counter")
+  implementation project(":ui:home")
+
+  implementation project(":store:root")
+  implementation project(":store:news:state")
+  implementation project(":store:news:middleware")
 }

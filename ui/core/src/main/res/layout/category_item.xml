@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:layout_height="match_parent"
+  tools:layout_width="wrap_content"
+  >
+
+  <View
+    android:id="@+id/category_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_item_pokemon"
+    tools:backgroundTint="@color/red"
+    />
+
+  <TextView
+    android:id="@+id/category_title"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="center_vertical"
+    android:padding="8dp"
+    android:textColor="@color/white"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    tools:text="@string/app_name"
+    />
+
+  <ImageView
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    android:layout_gravity="end"
+    android:alpha="0.25"
+    android:src="@drawable/img_pokeball"
+    android:tint="@color/white"
+    android:translationX="32dp"
+    android:translationY="16dp"
+    />
+</merge>
