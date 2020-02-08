@@ -37,7 +37,7 @@ object Deps {
   )
 
   val domainLibs = arrayOf(
-    "com.github.rougsig:meowflux:4.0.1"
+    "com.github.rougsig:meowflux:4.0.4"
   )
 
   private const val epoxyVersion = "3.8.0"
