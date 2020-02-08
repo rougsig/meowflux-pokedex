@@ -1,16 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
   compileSdkVersion ApkConfig.COMPILE_SDK_VERSION
+
   defaultConfig {
     applicationId ApkConfig.APPLICATION_ID
     minSdkVersion ApkConfig.MIN_SDK_VERSION
     targetSdkVersion ApkConfig.TARGET_SDK_VERSION
-    versionCode 1
-    versionName '1.0.0'
+    versionCode ApkConfig.VERSION_CODE
+    versionName ApkConfig.VERSION_NAME
+    multiDexEnabled true
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
   }
 
   sourceSets {
@@ -19,8 +25,16 @@ android {
   }
 }
 
-dependencies {
-  implementation project(':ui:core')
+androidExtensions {
+  experimental = true
+  defaultCacheImplementation = "SPARSE_ARRAY"
+}
 
-  kapt Deps.toothpickProcessor
+dependencies {
+  implementation Deps.domainLibs
+
+  implementation project(":lib-core")
+  implementation project(":store:root")
+  implementation project(":ui:core")
+  implementation project(":ui:counter")
 }

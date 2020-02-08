@@ -1,5 +1,9 @@
 include ':app',
-  ':lib:core',
-  ':lib:domain',
+  ':lib-core',
+
   ':ui:core',
-  ':store:root'
+  ':ui:counter',
+
+  ':store:root',
+  ':store:counter:action',
+  ':store:counter:reducer'

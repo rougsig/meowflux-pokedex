@@ -1,0 +1,8 @@
+apply plugin: 'kotlin'
+
+dependencies {
+  implementation Deps.coreLibs
+  implementation Deps.domainLibs
+
+  implementation project(':store:counter:action')
+}

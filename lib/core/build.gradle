@@ -1,6 +1,0 @@
-apply plugin: 'kotlin'
-
-dependencies {
-  api Deps.coreLibs
-  api Deps.toothpickRuntime
-}

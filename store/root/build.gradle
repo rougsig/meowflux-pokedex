@@ -1,0 +1,8 @@
+apply plugin: 'kotlin'
+
+dependencies {
+  implementation Deps.coreLibs
+  implementation Deps.domainLibs
+
+  api project(':store:counter:reducer')
+}

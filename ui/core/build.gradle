@@ -1,14 +1,21 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
   compileSdkVersion ApkConfig.COMPILE_SDK_VERSION
+
   defaultConfig {
     minSdkVersion ApkConfig.MIN_SDK_VERSION
     targetSdkVersion ApkConfig.TARGET_SDK_VERSION
-    versionCode 1
-    versionName '1.0.0'
+    versionCode ApkConfig.VERSION_CODE
+    versionName ApkConfig.VERSION_NAME
+    multiDexEnabled true
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
   }
 
   sourceSets {
@@ -17,14 +24,14 @@ android {
   }
 }
 
-dependencies {
-  api project(':lib:domain')
+androidExtensions {
+  experimental = true
+  defaultCacheImplementation = "SPARSE_ARRAY"
+}
 
-  api Deps.supportCoreLibs
-  api Deps.conductorLibs
-  api Deps.supportUiLibs
-  api Deps.supportTransitions
-  api Deps.constraintLayout
-  api Deps.epoxy
-  api Deps.toothpickRuntime
+dependencies {
+  api Deps.coreLibs
+  api Deps.uiLibs
+
+  api project(":lib-core")
 }
