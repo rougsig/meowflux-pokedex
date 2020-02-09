@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
   private val storeLogger: Middleware<RootState> = { _, _, next ->
     { action ->
-      println("STORE: $action")
+      val threadId = Thread.currentThread().id
+      println("STORE ($threadId): $action")
       next(action)
     }
   }
