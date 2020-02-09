@@ -1,17 +1,19 @@
 package com.github.rougsig.meowflux.pokedex.store.news
 
 import com.github.rougsig.meowflux.extension.createTypedReducer
+import com.github.rougsig.meowflux.pokedex.store.news.NewsAction.*
 
 val newsReducer = createTypedReducer(NewsState()) { action: NewsAction, previousState ->
   when (action) {
-    is NewsAction.FetchNews -> previousState
-    is NewsAction.Start -> previousState.copy(
+    is FetchNews -> previousState
+    is Start -> previousState.copy(
       isLoading = true
     )
-    is NewsAction.Success -> previousState.copy(
+    is Success -> previousState.copy(
+      isLoading = false,
       news = action.news
     )
-    is NewsAction.Failure -> previousState.copy(
+    is Failure -> previousState.copy(
       isLoading = false,
       error = action.error
     )

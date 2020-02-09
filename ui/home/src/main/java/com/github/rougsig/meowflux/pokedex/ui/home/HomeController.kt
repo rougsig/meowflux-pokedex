@@ -1,7 +1,7 @@
 package com.github.rougsig.meowflux.pokedex.ui.home
 
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.rougsig.meowflux.core.Store
 import com.github.rougsig.meowflux.pokedex.lib.core.instance
@@ -27,7 +27,13 @@ class HomeController : BaseController() {
     store.dispatch(NewsAction.FetchNews)
 
     store.stateFlow
-      .mapNotNull { it.news?.news }
-      .observe { news.setData(it) }
+      .mapNotNull { it.news }
+      .observe { newsState ->
+        home_news_progress_bar.isVisible = newsState.isLoading
+        home_news_error.isVisible = newsState.error != null
+        home_news_error.text = newsState.error?.message
+        home_news_list.isVisible = newsState.news != null
+        news.setData(newsState.news ?: emptyList())
+      }
   }
 }

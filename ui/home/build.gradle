@@ -37,4 +37,6 @@ dependencies {
 
   implementation project(":store:root")
   implementation project(":store:news:state")
+
+  implementation project(":entity")
 }

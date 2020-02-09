@@ -2,7 +2,7 @@ apply plugin: 'kotlin'
 
 dependencies {
   implementation Deps.coreLibs
-  implementation Deps.domainLibs
+  implementation Deps.networkLibs
 
   implementation project(":entity")
 }

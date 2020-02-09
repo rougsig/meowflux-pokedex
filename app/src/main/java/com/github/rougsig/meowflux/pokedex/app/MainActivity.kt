@@ -29,7 +29,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     storeScope = this,
     reducer = rootReducer,
     initialState = RootState(),
-    middlewares = listOf(newsFetcher),
+    middlewares = listOf(
+      newsFetcher,
+      { _, _, next ->
+        { action ->
+          println("STORE: $action")
+          next(action)
+        }
+      }
+    ),
     storeName = "MeowFluxRootStore"
   )
   private lateinit var router: Router

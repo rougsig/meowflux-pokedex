@@ -2,7 +2,7 @@ package com.github.rougsig.meowflux.pokedex.ui.home
 
 import android.content.Context
 import com.airbnb.epoxy.TypedEpoxyController
-import com.github.rougsig.meowflux.pokedex.store.news.News
+import com.github.rougsig.meowflux.pokedex.entity.News
 import com.github.rougsig.meowflux.pokedex.ui.core.component.dividerView
 import com.github.rougsig.meowflux.pokedex.ui.core.component.newsItemView
 

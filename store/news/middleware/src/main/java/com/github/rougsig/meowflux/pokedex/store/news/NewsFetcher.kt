@@ -1,29 +1,16 @@
 package com.github.rougsig.meowflux.pokedex.store.news
 
 import com.github.rougsig.meowflux.extension.createTypedMiddleware
+import com.github.rougsig.meowflux.pokedex.network.api
 import com.github.rougsig.meowflux.pokedex.store.news.NewsAction.*
 import com.github.rougsig.meowflux.pokedex.store.root.RootState
 
-val newsFetcher = createTypedMiddleware<FetchNews, RootState> { action, root, state, next ->
-  root(Start)
+val newsFetcher = createTypedMiddleware<FetchNews, RootState> { _, dispatch, _, _ ->
+  dispatch(Start)
   try {
-    root(Success(List(4) {
-      News(
-        title = "Pokémon Rumble Rush Arrives Soon",
-        date = "15 May 2019",
-        imageUrl = "https://raw.githubusercontent.com/mrcsxsiq/Kotlin-Pokedex/master/app/src/main/res/drawable/news1.png",
-        text = """
-              |Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-              |incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-              |exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-              |
-              |Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
-              |fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-              |culpa qui officia deserunt mollit anim id est laborum.
-              """.trimIndent()
-      )
-    }))
+    val news = api.getNews()
+    dispatch(Success(news))
   } catch (e: Exception) {
-    root(Failure(Throwable("emulating network request error")))
+    dispatch(Failure(e))
   }
 }

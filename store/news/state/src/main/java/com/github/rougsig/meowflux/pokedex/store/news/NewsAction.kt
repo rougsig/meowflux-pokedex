@@ -1,6 +1,7 @@
 package com.github.rougsig.meowflux.pokedex.store.news
 
 import com.github.rougsig.meowflux.core.Action
+import com.github.rougsig.meowflux.pokedex.entity.News
 
 sealed class NewsAction : Action {
   object FetchNews : NewsAction()

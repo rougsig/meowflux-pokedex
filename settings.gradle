@@ -1,5 +1,7 @@
 include ':app',
   ':lib-core',
+  ':network',
+  ':entity',
 
   ':ui:core',
   ':ui:home',

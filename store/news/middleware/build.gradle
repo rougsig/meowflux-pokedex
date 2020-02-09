@@ -6,4 +6,6 @@ dependencies {
 
   implementation project(':store:news:state')
   implementation project(':store:root')
+
+  implementation project(':network')
 }

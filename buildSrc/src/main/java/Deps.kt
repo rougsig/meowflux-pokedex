@@ -14,17 +14,20 @@ object Deps {
     "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpickVersion",
     kotlinStdLibJdk7,
     "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3",
-    "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3",
-    "com.jakewharton.timber:timber:4.7.1"
+    "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
   )
 
-  private const val retrofitVersion = "2.6.0"
+  private const val moshiVersion = "1.9.2"
+  private val moshiProcessor = "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+  private val entityLibs = arrayOf(
+    "com.squareup.moshi:moshi:$moshiVersion"
+  )
+
+  private const val retrofitVersion = "2.7.1"
   val networkLibs = arrayOf(
-    "com.squareup.okhttp3:okhttp:3.12.0",
-    "com.squareup.okhttp3:logging-interceptor:3.12.0",
-    "com.squareup.okio:okio:1.16.0",
-    "com.squareup.moshi:moshi:1.8.0",
-    "com.squareup.moshi:moshi-kotlin-codegen:1.8.0",
+    "com.squareup.okhttp3:okhttp:4.3.1",
+    "com.squareup.okhttp3:logging-interceptor:4.3.1",
+    *entityLibs,
     "com.squareup.retrofit2:retrofit:$retrofitVersion",
     "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
   )
@@ -37,10 +40,10 @@ object Deps {
   )
 
   val domainLibs = arrayOf(
-    "com.github.rougsig:meowflux:4.0.4"
+    "com.github.rougsig:meowflux:4.0.5"
   )
 
-  private const val epoxyVersion = "3.8.0"
+  private const val epoxyVersion = "3.9.0"
   const val epoxyProcessor = "com.airbnb.android:epoxy-processor:$epoxyVersion"
   val uiLibs = arrayOf(
     "com.airbnb.android:epoxy:$epoxyVersion",
