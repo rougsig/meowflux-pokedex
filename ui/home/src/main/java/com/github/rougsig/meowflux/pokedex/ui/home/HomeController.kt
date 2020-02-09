@@ -33,7 +33,7 @@ class HomeController : BaseController() {
         home_news_error.isVisible = newsState.error != null
         home_news_error.text = newsState.error?.message
         home_news_list.isVisible = newsState.news != null
-        news.setData(newsState.news ?: emptyList())
+        news.setData(newsState.news?.take(3) ?: emptyList())
       }
   }
 }
