@@ -5,7 +5,6 @@ import com.github.rougsig.meowflux.pokedex.store.news.NewsAction.*
 
 val newsReducer = createTypedReducer(NewsState()) { action: NewsAction, previousState ->
   when (action) {
-    is FetchNews -> previousState
     is Start -> previousState.copy(
       isLoading = true
     )

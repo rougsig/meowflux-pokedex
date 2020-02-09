@@ -4,7 +4,7 @@ import com.github.rougsig.meowflux.core.Action
 import com.github.rougsig.meowflux.pokedex.entity.News
 
 sealed class NewsAction : Action {
-  object FetchNews : NewsAction()
+  object FetchNews : Action
 
   object Start : NewsAction()
   data class Success(val news: List<News>) : NewsAction()

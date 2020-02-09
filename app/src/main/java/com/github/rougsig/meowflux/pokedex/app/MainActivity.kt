@@ -7,6 +7,7 @@ import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.github.rougsig.meowflux.core.BaseStore
+import com.github.rougsig.meowflux.core.Middleware
 import com.github.rougsig.meowflux.core.Store
 import com.github.rougsig.meowflux.core.StoreDispatcher
 import com.github.rougsig.meowflux.pokedex.R
@@ -25,18 +26,20 @@ import toothpick.config.Module
 @ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
+  private val storeLogger: Middleware<RootState> = { _, _, next ->
+    { action ->
+      println("STORE: $action")
+      next(action)
+    }
+  }
+
   private val store = BaseStore(
     storeScope = this,
     reducer = rootReducer,
     initialState = RootState(),
     middlewares = listOf(
       newsFetcher,
-      { _, _, next ->
-        { action ->
-          println("STORE: $action")
-          next(action)
-        }
-      }
+      storeLogger
     ),
     storeName = "MeowFluxRootStore"
   )
