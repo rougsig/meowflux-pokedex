@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -6,7 +6,6 @@ android {
   compileSdkVersion ApkConfig.COMPILE_SDK_VERSION
 
   defaultConfig {
-    applicationId ApkConfig.APPLICATION_ID
     minSdkVersion ApkConfig.MIN_SDK_VERSION
     targetSdkVersion ApkConfig.TARGET_SDK_VERSION
     versionCode ApkConfig.VERSION_CODE
@@ -23,18 +22,6 @@ android {
     main.java.srcDirs += 'src/main/kotlin'
     test.java.srcDirs += 'src/test/kotlin'
   }
-
-  packagingOptions {
-    exclude 'META-INF/DEPENDENCIES'
-    exclude 'META-INF/LICENSE'
-    exclude 'META-INF/LICENSE.txt'
-    exclude 'META-INF/license.txt'
-    exclude 'META-INF/NOTICE'
-    exclude 'META-INF/NOTICE.txt'
-    exclude 'META-INF/notice.txt'
-    exclude 'META-INF/ASL2.0'
-    exclude("META-INF/*.kotlin_module")
-  }
 }
 
 androidExtensions {
@@ -48,10 +35,8 @@ dependencies {
   implementation project(":lib-core")
   implementation project(":ui:core")
   implementation project(":ui:home")
-  implementation project(":ui:routing")
+  implementation project(":ui:news-details")
 
   implementation project(":store:root")
-  implementation project(":store:news:state")
   implementation project(":store:routing:action")
-  implementation project(":store:news:middleware")
 }

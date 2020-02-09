@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
 import com.github.rougsig.meowflux.core.BaseStore
 import com.github.rougsig.meowflux.core.Middleware
 import com.github.rougsig.meowflux.core.Store
@@ -16,7 +15,8 @@ import com.github.rougsig.meowflux.pokedex.lib.core.openForegroundScope
 import com.github.rougsig.meowflux.pokedex.store.news.newsFetcher
 import com.github.rougsig.meowflux.pokedex.store.root.RootState
 import com.github.rougsig.meowflux.pokedex.store.root.rootReducer
-import com.github.rougsig.meowflux.pokedex.ui.home.HomeController
+import com.github.rougsig.meowflux.pokedex.store.routing.RoutingAction
+import com.github.rougsig.meowflux.pokedex.ui.routing.routingMiddleware
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import toothpick.config.Module
@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     initialState = RootState(),
     middlewares = listOf(
       newsFetcher,
-      storeLogger
+      storeLogger,
+      routingMiddleware
     ),
     storeName = "MeowFluxRootStore"
   )
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
       }
     })
 
-    router.setRoot(RouterTransaction.with(HomeController()))
+    store.dispatch(RoutingAction.ShowHomeScreen)
   }
 
   override fun onBackPressed() {

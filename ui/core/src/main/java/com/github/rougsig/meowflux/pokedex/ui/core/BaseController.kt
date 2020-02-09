@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bluelinelabs.conductor.Controller
+import com.bluelinelabs.conductor.ControllerChangeHandler
+import com.bluelinelabs.conductor.ControllerChangeType
 import com.github.rougsig.meowflux.pokedex.lib.core.FOREGROUND_SCOPE
 import com.github.rougsig.meowflux.pokedex.lib.core.ToothpickEmptyModuleBindings
 import com.github.rougsig.meowflux.pokedex.lib.core.ToothpickModuleBindings
@@ -58,10 +60,14 @@ abstract class BaseController : Controller, LayoutContainer {
     get() = bindPropsRootView
 
   override fun onDestroyView(view: View) {
-    coroutineScope.cancel()
     clearFindViewByIdCache()
     bindPropsRootView = null
     super.onDestroyView(view)
+  }
+
+  override fun onDetach(view: View) {
+    coroutineScope.cancel()
+    super.onDetach(view)
   }
 
   override fun onDestroy() {

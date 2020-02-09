@@ -4,9 +4,12 @@ include ':app',
   ':entity',
 
   ':ui:core',
+  ':ui:routing',
   ':ui:home',
+  ':ui:news-details',
 
   ':store:root',
   ':store:news:state',
   ':store:news:reducer',
-  ':store:news:middleware'
+  ':store:news:middleware',
+  ':store:routing:action'

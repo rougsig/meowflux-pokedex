@@ -15,16 +15,15 @@ class HomeController : BaseController() {
   override val viewLayout = R.layout.home_controller
 
   override fun initializeView(rootView: View) {
+    val store = screenScope.instance<Store<RootState>>()
+
     val categories = CategoryEpoxyController(rootView.context)
     home_category_list.layoutManager = GridLayoutManager(rootView.context, 2)
     home_category_list.setItemSpacingDp(16)
     home_category_list.setControllerAndBuildModels(categories)
 
-    val news = NewsEpoxyController(rootView.context)
+    val news = NewsEpoxyController(rootView.context, store)
     home_news_list.setController(news)
-
-    val store = screenScope.instance<Store<RootState>>()
-    store.dispatch(NewsAction.FetchNews)
 
     store.stateFlow
       .mapNotNull { it.news }
@@ -35,5 +34,12 @@ class HomeController : BaseController() {
         home_news_list.isVisible = newsState.news != null
         news.setData(newsState.news?.take(3) ?: emptyList())
       }
+  }
+
+  override fun onAttach(view: View) {
+    super.onAttach(view)
+
+    val store = screenScope.instance<Store<RootState>>()
+    store.dispatch(NewsAction.FetchNews)
   }
 }

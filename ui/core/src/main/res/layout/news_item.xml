@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/relativeLayoutBackground"
@@ -9,8 +9,9 @@
   android:clipToPadding="false"
   android:focusable="true"
   android:foreground="?android:attr/selectableItemBackground"
-  android:orientation="vertical"
-  android:padding="16dp"
+  android:paddingStart="16dp"
+  android:paddingEnd="16dp"
+  tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout"
   >
 
   <TextView
@@ -59,4 +60,4 @@
     />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

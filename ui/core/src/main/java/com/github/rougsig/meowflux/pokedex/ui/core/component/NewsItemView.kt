@@ -4,8 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import com.airbnb.epoxy.*
 import com.github.rougsig.meowflux.pokedex.ui.core.R
+import com.github.rougsig.meowflux.pokedex.ui.core.extension.dpToPx
 import com.github.rougsig.meowflux.pokedex.ui.core.extension.getSelectableItemBackgroundResource
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.news_item.view.*
@@ -21,7 +24,16 @@ class NewsItemView @JvmOverloads constructor(
   init {
     View.inflate(context, R.layout.news_item, this)
     foreground = context.getDrawable(context.getSelectableItemBackgroundResource())
+    val padding = context.dpToPx(16)
+    updatePadding(padding, padding, padding, padding)
     setOnClickListener { listener?.invoke() }
+  }
+
+  @AfterPropsSet
+  fun postBindSetUp() {
+    updateLayoutParams {
+      height = context.dpToPx(100)
+    }
   }
 
   @TextProp
@@ -42,7 +54,7 @@ class NewsItemView @JvmOverloads constructor(
   }
 
   @CallbackProp
-  fun setListener(listener: (() -> Unit)?) {
+  fun setClickListener(listener: (() -> Unit)?) {
     this.listener = listener
   }
 }
