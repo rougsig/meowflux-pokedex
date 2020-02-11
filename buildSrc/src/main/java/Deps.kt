@@ -35,12 +35,11 @@ object Deps {
   private const val sqldelightVersion = "1.1.4"
   val storeLibs = arrayOf(
     "com.squareup.sqldelight:gradle-plugin:$sqldelightVersion",
-    "com.squareup.sqldelight:android-driver:$sqldelightVersion",
-    "com.squareup.sqldelight:rxjava2-extensions:$sqldelightVersion"
+    "com.squareup.sqldelight:android-driver:$sqldelightVersion"
   )
 
   val domainLibs = arrayOf(
-    "com.github.rougsig:meowflux:4.0.5"
+    "com.github.rougsig:meowflux:master-SNAPSHOT"
   )
 
   private const val epoxyVersion = "3.9.0"

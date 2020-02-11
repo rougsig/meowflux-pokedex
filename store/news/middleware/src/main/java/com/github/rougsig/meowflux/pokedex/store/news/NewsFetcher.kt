@@ -1,16 +1,16 @@
 package com.github.rougsig.meowflux.pokedex.store.news
 
-import com.github.rougsig.meowflux.extension.createTypedMiddleware
 import com.github.rougsig.meowflux.pokedex.network.api
 import com.github.rougsig.meowflux.pokedex.store.news.NewsAction.*
 import com.github.rougsig.meowflux.pokedex.store.root.RootState
+import com.github.rougsig.meowflux.worker.takeEvery
 
-val newsFetcher = createTypedMiddleware<FetchNews, RootState> { _, dispatch, _, _ ->
-  dispatch(Start)
+val newsFetcher = takeEvery<FetchNews, RootState> {
+  put(Start)
   try {
     val news = api.getNews()
-    dispatch(Success(news))
+    put(Success(news))
   } catch (e: Exception) {
-    dispatch(Failure(e))
+    put(Failure(e))
   }
 }

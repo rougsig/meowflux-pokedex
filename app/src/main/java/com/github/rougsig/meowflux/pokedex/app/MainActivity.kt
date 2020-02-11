@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
-import com.github.rougsig.meowflux.core.BaseStore
 import com.github.rougsig.meowflux.core.Middleware
 import com.github.rougsig.meowflux.core.Store
 import com.github.rougsig.meowflux.core.StoreDispatcher
+import com.github.rougsig.meowflux.core.createStore
 import com.github.rougsig.meowflux.pokedex.R
 import com.github.rougsig.meowflux.pokedex.lib.core.closeForegroundScope
 import com.github.rougsig.meowflux.pokedex.lib.core.openForegroundScope
@@ -34,16 +34,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
   }
 
-  private val store = BaseStore(
-    storeScope = this,
+  private val store = createStore(
     reducer = rootReducer,
     initialState = RootState(),
-    middlewares = listOf(
-      newsFetcher,
+    middleware = listOf(
       storeLogger,
+      newsFetcher,
       routingMiddleware
-    ),
-    storeName = "MeowFluxRootStore"
+    )
   )
   private lateinit var router: Router
 
