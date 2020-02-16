@@ -9,7 +9,9 @@ import com.github.rougsig.meowflux.pokedex.store.news.NewsAction
 import com.github.rougsig.meowflux.pokedex.store.root.RootState
 import com.github.rougsig.meowflux.pokedex.ui.core.BaseController
 import kotlinx.android.synthetic.main.home_controller.*
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 
 class HomeController : BaseController() {
   override val viewLayout = R.layout.home_controller
@@ -40,6 +42,6 @@ class HomeController : BaseController() {
     super.onAttach(view)
 
     val store = screenScope.instance<Store<RootState>>()
-    store.dispatch(NewsAction.FetchNews)
+    store.dispatch(NewsAction.FetchNews())
   }
 }

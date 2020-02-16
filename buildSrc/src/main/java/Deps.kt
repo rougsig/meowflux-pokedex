@@ -10,6 +10,7 @@ object Deps {
   const val toothpickProcessor =
     "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpickVersion"
   val coreLibs = arrayOf(
+    "com.jakewharton.threetenabp:threetenabp:1.2.2",
     "javax.inject:javax.inject:1",
     "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpickVersion",
     kotlinStdLibJdk7,
@@ -39,7 +40,7 @@ object Deps {
   )
 
   val domainLibs = arrayOf(
-    "com.github.rougsig:meowflux:d524f49fe4"
+    "com.github.rougsig:meowflux:e528ce9f0a"
   )
 
   private const val epoxyVersion = "3.9.0"
