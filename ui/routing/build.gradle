@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -39,4 +40,6 @@ dependencies {
 
   implementation project(":store:root")
   implementation project(":store:routing:action")
+
+  kapt Deps.toothpickProcessor
 }

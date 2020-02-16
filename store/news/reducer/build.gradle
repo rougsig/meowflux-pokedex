@@ -1,8 +1,11 @@
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
   implementation Deps.coreLibs
   implementation Deps.domainLibs
 
   implementation project(':store:news:state')
+
+  kapt Deps.toothpickProcessor
 }

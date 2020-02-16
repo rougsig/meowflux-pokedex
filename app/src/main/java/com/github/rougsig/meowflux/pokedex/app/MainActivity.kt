@@ -5,28 +5,36 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
-import com.github.rougsig.meowflux.core.Middleware
-import com.github.rougsig.meowflux.core.Store
-import com.github.rougsig.meowflux.core.StoreDispatcher
-import com.github.rougsig.meowflux.core.createStore
+import com.github.rougsig.meowflux.core.*
 import com.github.rougsig.meowflux.pokedex.R
 import com.github.rougsig.meowflux.pokedex.lib.core.closeForegroundScope
+import com.github.rougsig.meowflux.pokedex.lib.core.instance
 import com.github.rougsig.meowflux.pokedex.lib.core.openForegroundScope
-import com.github.rougsig.meowflux.pokedex.store.news.newsFetcher
+import com.github.rougsig.meowflux.pokedex.network.NeworkModule
+import com.github.rougsig.meowflux.pokedex.store.news.FetchNewsWatcher
 import com.github.rougsig.meowflux.pokedex.store.root.RootState
 import com.github.rougsig.meowflux.pokedex.store.root.rootReducer
 import com.github.rougsig.meowflux.pokedex.store.routing.RoutingAction
-import com.github.rougsig.meowflux.pokedex.ui.routing.routingMiddleware
+import com.github.rougsig.meowflux.pokedex.ui.routing.RoutingWatcher
+import com.github.rougsig.meowflux.worker.Watcher
+import com.github.rougsig.meowflux.worker.WorkerContext
+import com.github.rougsig.meowflux.worker.WorkerMiddleware
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
 import toothpick.config.Module
+import javax.inject.Inject
+import javax.inject.Provider
 
 @FlowPreview
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
-  private val storeLogger: Middleware<RootState> = { _, _, next ->
+  private val storeLogger: Middleware<RootState> = { _, _, _, next ->
     { action ->
       val threadId = Thread.currentThread().id
       println("STORE ($threadId): $action")
@@ -34,15 +42,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
   }
 
-  private val store = createStore(
-    reducer = rootReducer,
-    initialState = RootState(),
-    middleware = listOf(
-      storeLogger,
-      newsFetcher,
-      routingMiddleware
-    )
-  )
+  private lateinit var store: Store<RootState>
   private lateinit var router: Router
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,21 +51,40 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     router = Conductor.attachRouter(this, top_content_frame, savedInstanceState)
 
-    openForegroundScope().installModules(object : Module() {
-      init {
-        bind(Store::class.java)
-          .toInstance(store)
+    openForegroundScope().installModules(
+      object : Module() {
+        init {
+          bind(Router::class.java)
+            .toInstance(router)
 
-        bind(StoreDispatcher::class.java)
-          .toInstance(store)
+          bind(CoroutineScope::class.java)
+            .toInstance(this@MainActivity)
 
-        bind(Router::class.java)
-          .toInstance(router)
+          bind(WorkerMiddleware::class.java)
+            .toProvider(WorkerMiddlewareProvider::class.java)
+            .providesSingletonInScope()
+        }
+      },
+      NeworkModule()
+    )
 
-        bind(CoroutineScope::class.java)
-          .toInstance(this@MainActivity)
+    store = Store(
+      reducer = rootReducer,
+      initialState = RootState(),
+      middleware = listOf(
+        storeLogger,
+        openForegroundScope().instance<WorkerMiddleware<RootState>>()
+      )
+    )
+
+    openForegroundScope().installModules(
+      object : Module() {
+        init {
+          bind(Store::class.java)
+            .toInstance(store)
+        }
       }
-    })
+    )
 
     store.dispatch(RoutingAction.ShowHomeScreen)
   }
@@ -85,5 +104,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     super.onDestroy()
     this.cancel()
     closeForegroundScope()
+  }
+}
+
+@FlowPreview
+@ExperimentalCoroutinesApi
+private class WorkerMiddlewareProvider @Inject constructor(
+  private val routing: RoutingWatcher,
+  private val news: FetchNewsWatcher
+) : Provider<WorkerMiddleware<RootState>> {
+  override fun get(): WorkerMiddleware<RootState> {
+    return WorkerMiddleware(listOf(routing, news))
   }
 }

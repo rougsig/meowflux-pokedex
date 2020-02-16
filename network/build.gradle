@@ -1,8 +1,11 @@
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
   implementation Deps.coreLibs
   implementation Deps.networkLibs
 
   implementation project(":entity")
+
+  kapt Deps.toothpickProcessor
 }

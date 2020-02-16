@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -45,6 +46,8 @@ androidExtensions {
 dependencies {
   implementation Deps.domainLibs
 
+  implementation project(":network")
+
   implementation project(":lib-core")
   implementation project(":ui:core")
   implementation project(":ui:home")
@@ -54,4 +57,6 @@ dependencies {
   implementation project(":store:news:state")
   implementation project(":store:routing:action")
   implementation project(":store:news:middleware")
+
+  kapt Deps.toothpickProcessor
 }
