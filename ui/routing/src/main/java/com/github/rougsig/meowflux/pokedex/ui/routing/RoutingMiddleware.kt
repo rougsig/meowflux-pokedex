@@ -14,11 +14,7 @@ import com.github.rougsig.meowflux.worker.Worker
 import com.github.rougsig.meowflux.worker.watcher
 import com.github.rougsig.meowflux.worker.worker
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -39,8 +35,8 @@ class RoutingMiddleware @Inject constructor(
   }
 })
 
-class RoutingWatcher @Inject constructor(
-  private val worker: RoutingMiddleware
+class RoutingWatcher(
+  private val worker: Worker<RoutingAction, RootState>
 ) : Watcher<RoutingAction, RootState> by watcher(worker, {
   mapNotNull { it as? RoutingAction }
 })

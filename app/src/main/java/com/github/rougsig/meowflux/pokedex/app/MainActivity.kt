@@ -5,26 +5,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
-import com.github.rougsig.meowflux.core.*
+import com.github.rougsig.meowflux.core.Middleware
+import com.github.rougsig.meowflux.core.Store
 import com.github.rougsig.meowflux.pokedex.R
 import com.github.rougsig.meowflux.pokedex.lib.core.closeForegroundScope
 import com.github.rougsig.meowflux.pokedex.lib.core.instance
 import com.github.rougsig.meowflux.pokedex.lib.core.openForegroundScope
 import com.github.rougsig.meowflux.pokedex.network.NeworkModule
 import com.github.rougsig.meowflux.pokedex.store.news.FetchNewsWatcher
+import com.github.rougsig.meowflux.pokedex.store.news.NewsFetcher
 import com.github.rougsig.meowflux.pokedex.store.root.RootState
 import com.github.rougsig.meowflux.pokedex.store.root.rootReducer
 import com.github.rougsig.meowflux.pokedex.store.routing.RoutingAction
+import com.github.rougsig.meowflux.pokedex.ui.routing.RoutingMiddleware
 import com.github.rougsig.meowflux.pokedex.ui.routing.RoutingWatcher
-import com.github.rougsig.meowflux.worker.Watcher
-import com.github.rougsig.meowflux.worker.WorkerContext
 import com.github.rougsig.meowflux.worker.WorkerMiddleware
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import toothpick.config.Module
 import javax.inject.Inject
 import javax.inject.Provider
@@ -110,10 +107,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 @FlowPreview
 @ExperimentalCoroutinesApi
 private class WorkerMiddlewareProvider @Inject constructor(
-  private val routing: RoutingWatcher,
-  private val news: FetchNewsWatcher
+  private val routing: RoutingMiddleware,
+  private val news: NewsFetcher
 ) : Provider<WorkerMiddleware<RootState>> {
   override fun get(): WorkerMiddleware<RootState> {
-    return WorkerMiddleware(listOf(routing, news))
+    return WorkerMiddleware(
+      listOf(
+        FetchNewsWatcher(news),
+        RoutingWatcher(routing)
+      )
+    )
   }
 }
